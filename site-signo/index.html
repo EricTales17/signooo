@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descubra seu Signo | Zodíaco Completo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">✨</div>
+            <h1>Descubra seu Signo</h1>
+            <p class="subtitle">Signo, Tarot, numerologia pitagórica, mitologia e horóscopo — tudo a partir da sua data e nome</p>
+        </header>
+
+        <div class="input-card">
+            <label class="form-label">Data de Nascimento</label>
+            <div class="date-row" style="grid-template-columns: 1fr 1.4fr 1fr;">
+                <select id="dia" aria-label="Dia">
+                    <option value="">Dia</option>
+                </select>
+                <select id="mes" aria-label="Mês">
+                    <option value="">Mês</option>
+                    <option value="1">Janeiro</option>
+                    <option value="2">Fevereiro</option>
+                    <option value="3">Março</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Maio</option>
+                    <option value="6">Junho</option>
+                    <option value="7">Julho</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Setembro</option>
+                    <option value="10">Outubro</option>
+                    <option value="11">Novembro</option>
+                    <option value="12">Dezembro</option>
+                </select>
+                <select id="ano" aria-label="Ano">
+                    <option value="">Ano</option>
+                </select>
+            </div>
+            <label class="form-label" style="margin-top: 16px;">Nome completo (para numerologia)</label>
+            <input type="text" id="nome-completo" placeholder="Ex: Maria Silva Santos" style="width:100%; padding:14px 16px; background:rgba(255,255,255,0.07); border:1px solid var(--border); border-radius:12px; color:var(--text); font-family:'Poppins',sans-serif; font-size:1rem; outline:none; margin-bottom:4px;">
+            <label class="form-label" style="margin-top: 16px;">Ano de referência (Arcano do Ano + Ano Pessoal)</label>
+            <select id="ano-ref" aria-label="Ano de referência" style="width:100%; margin-bottom: 20px;">
+                <option value="">Ano atual</option>
+            </select>
+            <button class="btn" onclick="descobrirSigno()">✨ Descobrir tudo</button>
+        </div>
+
+        <div class="result" id="resultado">
+            <div class="result-card">
+                <div class="sign-header">
+                    <div class="sign-icon" id="icone"></div>
+                    <div class="sign-name" id="nome"></div>
+                    <div class="sign-dates" id="datas"></div>
+                    <div class="badges">
+                        <span class="badge" id="elemento"></span>
+                        <span class="badge planet" id="planeta"></span>
+                        <span class="badge" id="modalidade"></span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Personalidade do Signo</div>
+                    <p class="desc" id="descricao"></p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Leitura Combinada • Signo + Arcanos</div>
+                    <div class="combined-box">
+                        <p class="desc" id="leitura-combinada"></p>
+                        <div class="combined-tags" id="combined-tags"></div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Numerologia Pitagórica</div>
+                    <div class="num-grid">
+                        <div class="num-card">
+                            <div class="num-label">Caminho de Vida</div>
+                            <div class="num-value" id="num-caminho"></div>
+                            <div class="num-name" id="num-caminho-nome"></div>
+                            <p class="num-desc" id="num-caminho-desc"></p>
+                        </div>
+                        <div class="num-card">
+                            <div class="num-label">Ano Pessoal</div>
+                            <div class="num-value" id="num-ano-pessoal"></div>
+                            <div class="num-name" id="num-ano-pessoal-nome"></div>
+                            <p class="num-desc" id="num-ano-pessoal-desc"></p>
+                        </div>
+                        <div class="num-card">
+                            <div class="num-label">Destino / Expressão</div>
+                            <div class="num-value" id="num-destino"></div>
+                            <div class="num-name" id="num-destino-nome"></div>
+                            <p class="num-desc" id="num-destino-desc"></p>
+                        </div>
+                        <div class="num-card">
+                            <div class="num-label">Número da Alma</div>
+                            <div class="num-value" id="num-alma"></div>
+                            <div class="num-name" id="num-alma-nome"></div>
+                            <p class="num-desc" id="num-alma-desc"></p>
+                        </div>
+                        <div class="num-card full">
+                            <div class="num-label">Número da Personalidade</div>
+                            <div class="num-value" id="num-personalidade"></div>
+                            <div class="num-name" id="num-personalidade-nome"></div>
+                            <p class="num-desc" id="num-personalidade-desc"></p>
+                        </div>
+                    </div>
+                    <p class="desc" id="num-aviso-nome" style="margin-top:12px; font-size:0.85rem; opacity:0.75;"></p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Pontos Fortes & Fracos</div>
+                    <div class="traits-grid">
+                        <div class="trait-box strong">
+                            <h4>▲ Pontos Fortes</h4>
+                            <ul id="fortes"></ul>
+                        </div>
+                        <div class="trait-box weak">
+                            <h4>▼ Pontos Fracos</h4>
+                            <ul id="fracos"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Mitologia</div>
+                    <div class="myth-box">
+                        <p id="mito"></p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Compatibilidade</div>
+                    <div class="compat" id="compat"></div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Tarot • Arcanos</div>
+                    <div class="tarot-grid">
+                        <div class="tarot-card">
+                            <div class="tarot-card-inner">
+                                <div class="tarot-label">Arcano Pessoal</div>
+                                <div class="tarot-symbol" id="arcano-pessoal-simbolo"></div>
+                                <div class="tarot-number" id="arcano-pessoal-num"></div>
+                                <div class="tarot-name" id="arcano-pessoal-nome"></div>
+                                <div class="tarot-meanings">
+                                    <div class="upright"><strong>▲ Normal</strong><span id="arcano-pessoal-desc"></span></div>
+                                    <div class="reversed"><strong>▼ Invertida</strong><span id="arcano-pessoal-inv"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tarot-card">
+                            <div class="tarot-card-inner">
+                                <div class="tarot-label">Arcano do Ano</div>
+                                <div class="tarot-symbol" id="arcano-ano-simbolo"></div>
+                                <div class="tarot-number" id="arcano-ano-num"></div>
+                                <div class="tarot-name" id="arcano-ano-nome"></div>
+                                <div class="tarot-meanings">
+                                    <div class="upright"><strong>▲ Normal</strong><span id="arcano-ano-desc"></span></div>
+                                    <div class="reversed"><strong>▼ Invertida</strong><span id="arcano-ano-inv"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tarot-card tarot-card-full">
+                            <div class="tarot-card-inner">
+                                <div class="tarot-label">Arcano do Signo</div>
+                                <div class="tarot-symbol" id="arcano-signo-simbolo"></div>
+                                <div class="tarot-number" id="arcano-signo-num"></div>
+                                <div class="tarot-name" id="arcano-signo-nome"></div>
+                                <div class="tarot-meanings">
+                                    <div class="upright"><strong>▲ Normal</strong><span id="arcano-signo-desc"></span></div>
+                                    <div class="reversed"><strong>▼ Invertida</strong><span id="arcano-signo-inv"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tarot-daily">
+                        <div class="tarot-label">✦ Carta do Dia ✦</div>
+                        <div class="tarot-orientation" id="carta-dia-orientacao"></div>
+                        <div class="tarot-symbol" id="carta-dia-simbolo"></div>
+                        <div class="tarot-number" id="carta-dia-num"></div>
+                        <div class="tarot-name" id="carta-dia-nome"></div>
+                        <div class="tarot-meanings" style="text-align:center;">
+                            <div class="upright"><strong>▲ Normal</strong><span id="carta-dia-desc"></span></div>
+                            <div class="reversed"><strong>▼ Invertida</strong><span id="carta-dia-inv"></span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Horóscopo de Hoje</div>
+                    <div class="horoscope-box">
+                        <div class="horoscope-date" id="horoscope-date"></div>
+                        <p class="horoscope-text" id="horoscope-geral"></p>
+                        <div class="horoscope-areas">
+                            <div class="horoscope-area">
+                                <h5>💛 Amor</h5>
+                                <p id="horoscope-amor"></p>
+                            </div>
+                            <div class="horoscope-area">
+                                <h5>💼 Trabalho</h5>
+                                <p id="horoscope-trabalho"></p>
+                            </div>
+                            <div class="horoscope-area">
+                                <h5>💰 Dinheiro</h5>
+                                <p id="horoscope-dinheiro"></p>
+                            </div>
+                            <div class="horoscope-area">
+                                <h5>🧘 Saúde</h5>
+                                <p id="horoscope-saude"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            Feito com ✨ • Astrologia + Tarot + Numerologia Pitagórica + Mitologia
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
